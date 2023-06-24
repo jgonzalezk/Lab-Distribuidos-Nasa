@@ -11,3 +11,7 @@ Insertar hacen correr esta parte
 
 ### Frontend
 Insertar hacen correr esta parte
+```shell
+pip install
+npm run dev
+```
