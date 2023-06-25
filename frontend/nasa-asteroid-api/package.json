@@ -10,8 +10,15 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^18",
+    "autoprefixer": "^10.4.14",
     "nuxt": "^3.6.0",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2",
     "typescript": "latest"
+  },
+  "dependencies": {
+    "sass": "^1.63.6"
   }
 }
