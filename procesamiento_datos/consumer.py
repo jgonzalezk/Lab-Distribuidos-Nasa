@@ -4,8 +4,16 @@ import sys
 from argparse import ArgumentParser, FileType
 from configparser import ConfigParser
 from confluent_kafka import Consumer, OFFSET_BEGINNING
+import json
+from pymongo import MongoClient
 
 if __name__ == '__main__':
+
+    # Configuring the connection to MongoDB
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client['NASA_data']  # Database name
+    collection = db['asteroids']  # Collection name
+    
     # Parse the command line.
     parser = ArgumentParser()
     parser.add_argument('config_file', type=FileType('r'))
@@ -30,7 +38,7 @@ if __name__ == '__main__':
             consumer.assign(partitions)
 
     # Subscribe to topic
-    topic = "purchases"
+    topic = "asteroid"
     consumer.subscribe([topic], on_assign=reset_offset)
 
     # Poll for new messages from Kafka and print them.
@@ -42,15 +50,26 @@ if __name__ == '__main__':
                 # `session.timeout.ms` for the consumer group to
                 # rebalance and start consuming
                 print("Waiting...")
+
             elif msg.error():
                 print("ERROR: %s".format(msg.error()))
-            else:
-                # Extract the (optional) key and value, and print.
 
-                print("Consumed event from topic {topic}: key = {key:12} value = {value:12}".format(
-                    topic=msg.topic(), key=msg.key().decode('utf-8'), value=msg.value().decode('utf-8')))
+            else:
+                #Decode message 
+                asteroid = msg.value().decode('utf-8')
+                asteroid_dict = json.loads(asteroid)
+                print("Taken")
+                """ # Imprimir el diccionario del asteroide
+                print(asteroid_dict) """
+                # Insert datas in MongoDB
+                collection.insert_one(asteroid_dict)
+                # Confirmar la posición de lectura del mensaje
+                consumer.commit(msg)
+                
     except KeyboardInterrupt:
         pass
     finally:
         # Leave group and commit final offsets
         consumer.close()
+        # Close connection to database
+        client.close()
