@@ -5,6 +5,7 @@ blablabla
 
 ### Procesamiento de datos
 Creación de la base de datos______________
+
 Para crear este proyecto se usa Mongodb v5.
 
 Instalar la librería necesarias para trabajar con Mongo en la carpeta de procesamiento de datos:
@@ -18,11 +19,12 @@ node database-create.js
 ```
 
 Producción y consumo de API_____________
+
 Instalar la librería necesaria de Kafka:
 ```shell
 pip install confluent-kafka
 ```
-Ahora para poder correr Kafka con el contenedor de Docker, dirigirse a la carpeta de backend y ejecutar:
+Ahora para poder correr Kafka con el contenedor de Docker, en la carpeta de procesamiento de datos ejecutar:
 ```shell
 docker compose up -d
 ```
