@@ -15,7 +15,7 @@ pip install pymongo
 ```
 Para crear base de datos (tener instalado node y conección a localhost:27017 en mongo):
 ```shell
-node database-create.js
+node database_create.js
 ```
 
 Producción y consumo de API_____________
