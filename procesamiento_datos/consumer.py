@@ -49,7 +49,8 @@ if __name__ == '__main__':
                 # Initial message consumption may take up to
                 # `session.timeout.ms` for the consumer group to
                 # rebalance and start consuming
-                print("Waiting...")
+                #print("Waiting...")
+                print(".")
 
             elif msg.error():
                 print("ERROR: %s".format(msg.error()))
@@ -58,7 +59,7 @@ if __name__ == '__main__':
                 #Decode message 
                 asteroid = msg.value().decode('utf-8')
                 asteroid_dict = json.loads(asteroid)
-                print("Taken")
+                #print("Taken")
                 """ # Imprimir el diccionario del asteroide
                 print(asteroid_dict) """
                 # Insert datas in MongoDB
