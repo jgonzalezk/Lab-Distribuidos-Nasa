@@ -6,11 +6,11 @@
                 <div class="w-full md:w-1/2 px-4">
                     <h1 class="text-4xl font-bold text-white leading-tight">Asteroids Near Earth</h1>
                     <!-- Quiero que el texto tenga solo el ancho de la columna, no toda la pantalla -->
-                    <p class="text-xl break-normal text-gray-200 mt-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit distinctio dolore velit repudiandae doloribus, eaque hic repellat ab, architecto accusantium, consectetur ex ipsa corrupti pariatur exercitationem esse iusto atque quos?</p>
+                    <p class="text-xl break-normal text-gray-200 mt-4">Esta aplicación utiliza la API Asteroids NeoWs de la NASA para recopilar datos sobre asteroides cercanos a la Tierra. Nuestra aplicación proporciona estadísticas útiles como tamaño, distancia y velocidad de los asteroides. Permite a los usuarios estar informados sobre posibles amenazas y explorar el fascinante mundo de los asteroides de manera sencilla y accesible.</p>
                     <p class="text-xl break-normal text-gray-200 mt-4"> {{ counter.toLocaleString() }} Cercanos a la Tierra.</p>
                     <div class="mt-8">
                         <a href="dashboard" class="bg-white text-gray-800 font-bold rounded-full px-6 py-3 mr-1 shadow-lg uppercase tracking-wider hover:bg-gray-200">Free Trial</a>
-                        <a href="#" class="bg-gray-800 text-white font-bold rounded-full px-6 py-3 ml-1 shadow-lg uppercase tracking-wider hover:bg-gray-700">Signup</a>
+                        <a href="#" class="bg-gray-800 ring-2 ring-[#66fcf1] text-white font-bold rounded-full px-6 py-3 ml-1 shadow-lg uppercase tracking-wider hover:bg-gray-700">Signup</a>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 px-4"></div>
@@ -38,8 +38,8 @@
     background-position: center;
     background-size: cover;
     z-index: -1;
-    backdrop-filter: brightness(60%) blur(1.8px);
-    -webkit-backdrop-filter: brightness(60%) blur(1.8px);
+    backdrop-filter: brightness(60%) blur(1.6px);
+    -webkit-backdrop-filter: brightness(60%) blur(1.6px);
     pointer-events: none;
 }
 
@@ -50,13 +50,14 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    backdrop-filter: brightness(60%) blur(1.8px);
-    -webkit-backdrop-filter: brightness(60%) blur(1.8px);
+    backdrop-filter: brightness(60%) blur(1.6px);
+    -webkit-backdrop-filter: brightness(60%) blur(1.6px);
     z-index: -1;
 }
 </style>
 
 <script setup>
+import { ref } from 'vue'
 const counter = ref(578950)
 
 setInterval(() => {
