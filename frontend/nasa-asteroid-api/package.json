@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.0.18",
+    "@vuepic/vue-datepicker": "^5.3.0",
     "heroicons": "^2.0.18",
     "sass": "^1.63.6"
   }
