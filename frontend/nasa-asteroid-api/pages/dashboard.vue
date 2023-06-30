@@ -1,43 +1,25 @@
 <template>
-    <div class="bg-[#1f2833] h-screen flex flex-col uwu">
-        <div class="flex h-full">
-            <div class="w-1/5 sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/5 flex flex-wrap container justify-center">
-                <div class="flex-grid grid-rows-3">
-                    <!-- Logos -->
-                    <div class="flex flex-col my-8 mx-6">
-                        <a href="/" class="flex">
-                            <img src="../static/banner.png" alt="logo" class="mx-auto h-20 w-auto" href="/">
-                        </a>
-                    </div>
-                    <!-- Botones de opciones -->
-                    <div class="ring-2 border-gray-200 rounded-lg mx-8 my-4">
-                        <div class="flex flex-col items-center">
-                            <div class="my-6">
-                                <a href="#" class="bg-gray-800 ring-2 ring-[#66fcf1] text-white font-bold rounded-full px-6 py-4 ml-1 shadow-lg uppercase tracking-wider text-sm hover:bg-gray-700">Información general</a>
-                            </div>
-                            <div class="my-6">
-                                <a href="#" class="bg-gray-800 ring-2 ring-[#66fcf1] text-white font-bold rounded-full px-4 py-4 ml-1 shadow-lg uppercase tracking-wider text-sm hover:bg-gray-700">información detallada</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Filtro de fecha de la opcion principal -->
-                    <div class="flex flex-col items-center ring-2 border-gray-200 rounded-lg mx-8 my-4">
-                        <h1>Designar periodo</h1>
-                        <h1>Designar periodo</h1>
-                        <div class="my-6">
-                            <VueDatePicker v-model="date" />
-                        </div>
-                        <h1>Designar periodo</h1>
-                        <div class="my-6">
-                            <VueDatePicker v-model="date" />
-                        </div>
-                    </div>
-           
-                </div>
-            </div>
+    <div class="bg-[#1f2833] h-screen flex">
+        <aside class="w-1/4 bg-gray-200 p-4">
+            <div class="flex flex-col mb-4 space-y-10">
+                <a href="/" class="flex">
+                    <img src="../static/banner.png" alt="logo" class="mx-auto h-20 w-auto" href="/">
+                </a>
+                <!-- <img src="/path/to/logo.png" alt="Logo" class="mb-4" /> -->
+                <button class="bg-blue-500 text-white px-4 py-2 mb-2">Botón 1</button>
+                <button class="bg-blue-500 text-white px-4 py-2 mb-2">Botón 2</button>
+                <input type="text" placeholder="Input 1" class="border p-2 mb-2" />
+                <input type="text" placeholder="Input 2" class="border p-2 mb-2" />
+        </div>
+        </aside>
             <div class="w-4/5 flex flex-wrap container content-center bg-dashboard">
                 <!-- Contenido de la columna derecha -->
+                <Particles
+            id="tsparticles"
+            :particlesInit="particlesInit"
+            :particlesLoaded="particlesLoaded"
+            url="../assets/particles.json"
+        />
                 <div class="flex flex-wrap sm:flex-nowrap container items-center justify-center content-center space-x-8 my-4 mx-20">
                     <div class='flex flex-wrap flex-row sm:flex-col justify-center items-center w-full sm:w-1/4 p-5 bg-white rounded-md shadow-xl border-l-8 border-[#00a1e0]'>
 		                <div class="flex justify-between w-full">
@@ -235,20 +217,33 @@
 	                </div>
                 </div>
             </div>
-        </div>
+        
     </div>
 </template>
 
 <script>
 import { ref } from 'vue';
 import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
+import '@vuepic/vue-datepicker/dist/main.css';
+import Particles from "vue3-particles";
+
+// declare module "vue3-particles";
+import { loadFull } from "tsparticles";
+
+const particlesInit = async engine => {
+    await loadFull(engine);
+};
+
+const particlesLoaded = async container => {
+    console.log("Particles container loaded", container);
+};
 
 const date = ref();
 
 export default {
     components: {
-        VueDatePicker
+        VueDatePicker,
+        Particles
     },
     setup() {
         return {
