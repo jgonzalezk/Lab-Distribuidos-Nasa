@@ -1,19 +1,40 @@
 <template>
-    <div class="bg-[#1f2833] h-screen flex flex-col">
-        <Nav></Nav>
+    <div class="bg-[#1f2833] h-screen flex flex-col uwu">
         <div class="flex h-full">
-            <div class="w-1/5 flex flex-wrap container justify-center">
-                <!-- Contenido de la columna izquierda -->
-                <div class="flex flex-wrap flex-col w-full">
-                    <h1 class="text-4xl text-center font-bold text-white leading-tight">Seleccione la fecha</h1>
-                    <VueDatePicker class="flex" v-model="date" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es"/>
+            <div class="w-1/5 sm:w-full md:w-1/2 lg:w-1/3 xl:w-1/5 flex flex-wrap container justify-center">
+                <div class="flex-grid grid-rows-3">
+                    <!-- Logos -->
+                    <div class="flex flex-col my-8 mx-6">
+                        <a href="/" class="flex">
+                            <img src="../static/banner.png" alt="logo" class="mx-auto h-20 w-auto" href="/">
+                        </a>
+                    </div>
+                    <!-- Botones de opciones -->
+                    <div class="ring-2 border-gray-200 rounded-lg mx-8 my-4">
+                        <div class="flex flex-col items-center">
+                            <div class="my-6">
+                                <a href="#" class="bg-gray-800 ring-2 ring-[#66fcf1] text-white font-bold rounded-full px-6 py-4 ml-1 shadow-lg uppercase tracking-wider text-sm hover:bg-gray-700">Información general</a>
+                            </div>
+                            <div class="my-6">
+                                <a href="#" class="bg-gray-800 ring-2 ring-[#66fcf1] text-white font-bold rounded-full px-4 py-4 ml-1 shadow-lg uppercase tracking-wider text-sm hover:bg-gray-700">información detallada</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Filtro de fecha de la opcion principal -->
+                    <div class="flex flex-col items-center ring-2 border-gray-200 rounded-lg mx-8 my-4">
+                        <h1>Designar periodo</h1>
+                        <h1>Designar periodo</h1>
+                        <div class="my-6">
+                            <VueDatePicker v-model="date" />
+                        </div>
+                        <h1>Designar periodo</h1>
+                        <div class="my-6">
+                            <VueDatePicker v-model="date" />
+                        </div>
+                    </div>
+           
                 </div>
-                <div class="flex flex-wrap flex-col w-full">
-                    <h1 class="text-4xl text-center font-bold text-white leading-tight">Seleccione la fecha</h1>
-                    <VueDatePicker class="flex" v-model="date" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es"/>
-                </div>
-
-
             </div>
             <div class="w-4/5 flex flex-wrap container content-center bg-dashboard">
                 <!-- Contenido de la columna derecha -->
@@ -238,6 +259,9 @@ export default {
 </script>
 
 <style scoped>
+.uwu{
+    overflow: auto hidden;
+}
 .bg-dashboard{
     background: radial-gradient(circle, #1f2833 0%, rgba(0,0,0,0.5) 100%)
 }
