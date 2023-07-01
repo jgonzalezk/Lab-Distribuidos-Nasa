@@ -45,7 +45,10 @@ python consumer.py getting_started.ini
 ```
 
 ### Backend
-Insertar hacen correr esta parte
+```shell
+mvn spring-boot:run
+```
+
 
 ### Frontend
 Insertar hacen correr esta parte
