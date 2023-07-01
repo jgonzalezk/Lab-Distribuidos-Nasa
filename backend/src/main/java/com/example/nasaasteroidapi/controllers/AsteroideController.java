@@ -1,12 +1,12 @@
-package com.api.nasaasteroidapi.controllers;
+package com.example.nasaasteroidapi.controllers;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.api.nasaasteroidapi.model.Asteroide;
-import com.api.nasaasteroidapi.service.AsteroideService;
-
+import com.example.nasaasteroidapi.model.Asteroide;
+import com.example.nasaasteroidapi.service.AsteroideService;
+import org.apache.spark.api.java.JavaSparkContext;
 import lombok.RequiredArgsConstructor;
 
 @RestController

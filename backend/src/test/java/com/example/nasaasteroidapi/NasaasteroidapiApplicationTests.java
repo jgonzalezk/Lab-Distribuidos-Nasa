@@ -1,4 +1,4 @@
-package com.api.nasaasteroidapi;
+package com.example.nasaasteroidapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

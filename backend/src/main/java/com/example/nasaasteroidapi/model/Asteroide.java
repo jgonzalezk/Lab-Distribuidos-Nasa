@@ -1,4 +1,4 @@
-package com.api.nasaasteroidapi.model;
+package com.example.nasaasteroidapi.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Data;
