@@ -8,11 +8,9 @@
           General</a>
         <a href="#" class="tracking-wider uppercase text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Información Detallada</a>
         <h1 class="text-white">Desde</h1>
-        <VueDatePicker v-model="dateIni" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy"
-          :enable-time-picker="false" locale="es" />
+        <VueDatePicker v-model="dateIni" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es" />
         <h1 class="text-white">Hasta</h1>
-        <VueDatePicker v-model="dateFin" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy"
-          :enable-time-picker="false" locale="es" />
+        <VueDatePicker v-model="dateFin" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es" />
       </div>
     </aside>
     <main class="flex-grow bg-gray-100 p-4">
@@ -67,17 +65,11 @@ export default {
   methods: {
   },
   async mounted() {
-    const response = await axios.get('https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08&api_key=DEMO_KEY');
-    console.log(response.data);
+    // const response = await axios.get('https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08&api_key=DEMO_KEY');
+    // console.log(response.data);
   }
 }
 </script>
 
 <style scoped>
-.uwu {
-  overflow: auto hidden;
-}
-
-.bg-dashboard {
-  background: radial-gradient(circle, #1f2833 0%, rgba(0, 0, 0, 0.5) 100%)
-}</style>
+</style>
