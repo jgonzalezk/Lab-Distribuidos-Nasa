@@ -3,30 +3,38 @@
     <aside class="w-1/4 bg-gray-900 p-4">
       <div class="flex flex-col mb-4 space-y-4 mx-8">
         <a href="/" class="flex"><img src="~/assets/banner.png" alt="logo" class="mx-auto h-20 w-auto"></a>
-        <a href="/dashboard"
-          class="tracking-wider uppercase text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Información
-          General</a>
+        <a href="/dashboard" class="tracking-wider uppercase text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Información General</a>
         <a href="#" class="tracking-wider uppercase text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Información Detallada</a>
         <h1 class="text-white">Desde</h1>
         <VueDatePicker v-model="dateIni" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es" />
         <h1 class="text-white">Hasta</h1>
         <VueDatePicker v-model="dateFin" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es" />
+        <div class="flex items-center">
+          <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Filtrar</a>
+          <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Limpiar filtro</a>
+        </div>
       </div>
     </aside>
-    <main class="flex-grow bg-gray-100 p-4">
+    <main class="flex-grow p-4 bg-space">
       <!-- Contenido principal -->
       <div class="overflow-y-auto max-h-full">
         <ul class="space-y-4">
-          <li v-for="(item, index) in itemList" :key="index" class="bg-white p-4 rounded-lg">
-            <div class="flex">
+          <li v-for="(item, index) in itemList" :key="index" class="bg-white p-4 py-5 rounded-lg">
+            <div class="flex flex-row">
               <div class="flex-grow">
-                <h1 class="text-lg font-bold">{{ item.name }}</h1>
-                <p>ID: {{ item.id }}</p>
-                <p><strong>Fecha:</strong> {{ item.date }}</p>
-                <p><strong>Diametro:</strong> {{ item.diameter }}</p>
-                <p><strong>Velocidad:</strong> {{ item.velocity }}</p>
-                <p><strong>Peso:</strong> {{ item.weight }}</p>
-                <p><strong>Orbita:</strong> {{ item.orbit }}</p>
+                <div class="flex col items-center justify-between pr-96">
+                  <h1 class="text-lg font-bold">{{ item.name }}</h1>
+                  <p class="ml-16"><strong>UUID:</strong> {{ item.id }}</p>
+                  <p class="ml-16 bg-purple-300 text-purple-700 rounded-3xl px-3 font-bold"> {{ item.date }}</p>
+                </div>
+                <div class="flex col items-center justify-between">
+                  <p><strong>Diametro estimado:</strong> {{ item.diameter }}</p>
+                  <p class="ml-4"><strong>Velocidad relativa:</strong> {{ item.velocity }}</p>
+                  <p><strong>Cuerpo que Orbita:</strong> {{ item.orbit }}</p>
+                </div>
+                <div class="flex items-center">
+                  
+                </div>
               </div>
               <div class="flex items-center">
                 <div :class="['w-8 h-8 rounded-full', item.status ? 'bg-green-500' : 'bg-red-500']"></div>
@@ -62,7 +70,7 @@ export default {
   data() {
     return {
       itemList: [
-      { name: 'Nombre 1', id: 12345, date: '2023-07-07', diameter: '10 km', velocity: '1000 km/h', weight: '1000 kg', orbit: 'Terrestre', status: true },
+        { name: 'Nombre 1', id: 12345, date: '2023-07-07', diameter: '10 km', velocity: '1000 km/h', weight: '1000 kg', orbit: 'Terrestre', status: true },
         { name: 'Nombre 2', id: 67890, date: '2023-07-08', diameter: '5 km', velocity: '500 km/h', weight: '500 kg', orbit: 'Lunar', status: false },
         // Agrega más elementos de la lista aquí si es necesario
       ]
@@ -81,4 +89,10 @@ export default {
 </script>
 
 <style scoped>
+.bg-space {
+  background-image: url('~/assets/bg-space.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 </style>

@@ -9,10 +9,14 @@
                 <VueDatePicker v-model="dateIni" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es"/>
                 <h1 class="text-white">Hasta</h1>
                 <VueDatePicker v-model="dateFin" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es"/>
+                <div class="flex items-center">
+                    <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Filtrar</a>
+                    <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Limpiar filtro</a>
+                </div>
             </div>
         </aside>
 
-        <main class="flex-grow bg-gray-700 p-4">
+        <main class="flex-grow bg-space p-4">
             <!-- Contenido principal -->
             <div class="grid grid-cols-4 gap-4 justify-center">
                 <!-- Tarjetas 1-8 -->
@@ -87,10 +91,12 @@ export default {
 </script>
 
 <style scoped>
-.uwu{
-    overflow: auto hidden;
+
+.bg-space {
+  background-image: url('~/assets/bg-space.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-.bg-dashboard{
-    background: radial-gradient(circle, #1f2833 0%, rgba(0,0,0,0.5) 100%)
-}
+
 </style>
