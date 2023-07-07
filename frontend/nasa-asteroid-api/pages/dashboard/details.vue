@@ -15,11 +15,25 @@
     </aside>
     <main class="flex-grow bg-gray-100 p-4">
       <!-- Contenido principal -->
-      <div class="grid grid-cols-2 gap-4 justify-center">
-        <div class="bg-white p-4">Tarjeta 1</div>
-        <div class="bg-white p-4">Tarjeta 2</div>
-        <div class="bg-white p-4">Tarjeta 3</div>
-        <div class="bg-white p-4">Tarjeta 4</div>
+      <div class="overflow-y-auto max-h-full">
+        <ul class="space-y-4">
+          <li v-for="(item, index) in itemList" :key="index" class="bg-white p-4 rounded-lg">
+            <div class="flex">
+              <div class="flex-grow">
+                <h1 class="text-lg font-bold">{{ item.name }}</h1>
+                <p>ID: {{ item.id }}</p>
+                <p><strong>Fecha:</strong> {{ item.date }}</p>
+                <p><strong>Diametro:</strong> {{ item.diameter }}</p>
+                <p><strong>Velocidad:</strong> {{ item.velocity }}</p>
+                <p><strong>Peso:</strong> {{ item.weight }}</p>
+                <p><strong>Orbita:</strong> {{ item.orbit }}</p>
+              </div>
+              <div class="flex items-center">
+                <div :class="['w-8 h-8 rounded-full', item.status ? 'bg-green-500' : 'bg-red-500']"></div>
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </main>
   </div>
@@ -47,15 +61,10 @@ export default {
   },
   data() {
     return {
-      tarjetas: [
-        { nombre: 'Asteroides', valor: 0 },
-        { nombre: 'Cometas', valor: 0 },
-        { nombre: 'Meteoritos', valor: 0 },
-        { nombre: 'Meteoros', valor: 0 },
-        { nombre: 'Meteoroides', valor: 0 },
-        { nombre: 'Satélites', valor: 0 },
-        { nombre: 'Estrellas fugaces', valor: 0 },
-        { nombre: 'Estrellas', valor: 0 },
+      itemList: [
+      { name: 'Nombre 1', id: 12345, date: '2023-07-07', diameter: '10 km', velocity: '1000 km/h', weight: '1000 kg', orbit: 'Terrestre', status: true },
+        { name: 'Nombre 2', id: 67890, date: '2023-07-08', diameter: '5 km', velocity: '500 km/h', weight: '500 kg', orbit: 'Lunar', status: false },
+        // Agrega más elementos de la lista aquí si es necesario
       ]
     }
   },
