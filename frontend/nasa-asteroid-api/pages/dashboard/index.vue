@@ -9,7 +9,7 @@
                 <VueDatePicker v-model="dateIni" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es"/>
                 <h1 class="text-white">Hasta</h1>
                 <VueDatePicker v-model="dateFin" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es"/>
-                <div class="flex items-center">
+                <div class="flex items-center space-x-5">
                     <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Filtrar</a>
                     <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Limpiar filtro</a>
                 </div>

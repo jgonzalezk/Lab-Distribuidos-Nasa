@@ -9,7 +9,7 @@
         <VueDatePicker v-model="dateIni" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es" />
         <h1 class="text-white">Hasta</h1>
         <VueDatePicker v-model="dateFin" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es" />
-        <div class="flex items-center">
+        <div class="flex items-center space-x-5">
           <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Filtrar</a>
           <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Limpiar filtro</a>
         </div>
@@ -19,26 +19,23 @@
       <!-- Contenido principal -->
       <div class="overflow-y-auto max-h-full">
         <ul class="space-y-4">
-          <li v-for="(item, index) in itemList" :key="index" class="bg-white p-4 py-5 rounded-lg">
-            <div class="flex flex-row">
-              <div class="flex-grow">
-                <div class="flex col items-center justify-between pr-96">
-                  <h1 class="text-lg font-bold">{{ item.name }}</h1>
-                  <p class="ml-16"><strong>UUID:</strong> {{ item.id }}</p>
-                  <p class="ml-16 bg-purple-300 text-purple-700 rounded-3xl px-3 font-bold"> {{ item.date }}</p>
-                </div>
-                <div class="flex col items-center justify-between">
-                  <p><strong>Diametro estimado:</strong> {{ item.diameter }}</p>
-                  <p class="ml-4"><strong>Velocidad relativa:</strong> {{ item.velocity }}</p>
-                  <p><strong>Cuerpo que Orbita:</strong> {{ item.orbit }}</p>
-                </div>
-                <div class="flex items-center">
-                  
-                </div>
+          <li v-for="(item, index) in itemList" :key="index" class="bg-white p-4 py-5 rounded-lg flex flex-row">
+            <div class="grid grid-cols-3 gap-4 flex-grow mr-48">
+              <div>
+                <h1 class="text-lg font-bold">{{ item.name }}</h1>
+                <p><strong>Diametro estimado:</strong> {{ item.diameter }}</p>
               </div>
-              <div class="flex items-center">
-                <div :class="['w-8 h-8 rounded-full', item.status ? 'bg-green-500' : 'bg-red-500']"></div>
+              <div>
+                <p><strong>UUID:</strong> {{ item.id }}</p>
+                <p><strong>Velocidad relativa:</strong> {{ item.velocity }}</p>
               </div>
+              <div>
+                <span class="bg-purple-300 text-purple-700 rounded-3xl px-3 font-bold">{{ item.date }}</span>
+                <p><strong>Cuerpo que Orbita:</strong> {{ item.orbit }}</p>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <div :class="['w-8 h-8 rounded-full', item.status ? 'bg-green-500' : 'bg-red-500']"></div>
             </div>
           </li>
         </ul>
