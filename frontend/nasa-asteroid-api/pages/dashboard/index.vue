@@ -18,10 +18,10 @@
         
         <main class="flex-grow bg-space p-4 flex items-center justify-center w-max">
             <!-- Contenido principal -->
-            <div class="grid grid-cols-4 gap-4 w-full max-w-screen-lg mx-auto">
-                <h1 class="text-3xl leading-tight text-white font-bold mb-4 text-center col-span-4">Información general promedio del período</h1>
+            <div class="grid grid-cols-3 gap-3 w-full max-w-screen-lg mx-auto">
+                <h1 class="text-3xl leading-tight text-white font-bold mb-4 text-center col-span-3">Información general promedio del período</h1>
     <!-- Tarjetas 1-8 -->
-                <!-- Tarjetas 1-8 -->
+                <!-- Tarjetas 1-6 -->
                 <div v-for="(tarjeta,index) in tarjetas" :key="index" :class="{'border-green-500': !tarjeta.estado,'border-red-500': tarjeta.estado}" class='flex flex-wrap flex-row sm:flex-col justify-center items-center w-full p-5 py-6 bg-white rounded-md shadow-xl border-l-[5px] border-blue-300'>
 		            <div class="text-center">
                         <div class="font-bold text-gray-800 text-5xl">{{tarjeta.valor}}</div>
@@ -57,14 +57,12 @@ export default {
     data(){
         return{
             tarjetas: [
-                {nombre: 'Asteroides', valor: 0, estado: false},
-                {nombre: 'Cometas', valor: 0, estado: false},
-                {nombre: 'Meteoritos', valor: 0, estado: false},
-                {nombre: 'Meteoros', valor: 0, estado: false},
-                {nombre: 'Meteoroides', valor: 0, estado: true},
-                {nombre: 'Satélites', valor: 0, estado: true},
-                {nombre: 'Estrellas fugaces', valor: 0, estado: true},
-                {nombre: 'Estrellas', valor: 0, estado: true},
+                {nombre: 'Total', valor: 0, estado: false},
+                {nombre: 'Velocidad', valor: 0, estado: false},
+                {nombre: 'Tamaño', valor: 0, estado: false},
+                {nombre: 'Total', valor: 0, estado: true},
+                {nombre: 'Velocidad', valor: 0, estado: true},
+                {nombre: 'Tamaño', valor: 0, estado: true},
             ]
         }
     },
