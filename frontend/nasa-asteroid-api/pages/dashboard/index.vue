@@ -3,14 +3,16 @@
         <aside class="w-1/4 bg-gray-900 p-4">
             <div class="flex flex-col mb-4 space-y-4 mx-8">
                 <a href="/" class="flex"><img src="~/assets/banner.png" alt="logo" class="mx-auto h-20 w-auto"></a>
+                <div class="py-2"></div>
                 <a href="#" class="tracking-wider uppercase text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Información General</a>
                 <a href="/dashboard/details" class="tracking-wider uppercase text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Información Detallada</a>
+                <div class="py-1"></div>
                 <h1 class="text-white">Desde:</h1>
-                <VueDatePicker v-model="dateIni" placeholder="Comienzo del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es"/>
+                <VueDatePicker v-model="dateIni" placeholder="Comienzo del periodo" model-type="yyyy-MM-dd" :enable-time-picker="false" locale="es"/>
                 <h1 class="text-white">Hasta:</h1>
-                <VueDatePicker v-model="dateFin" placeholder="Fin del periodo" model-date="dd.MM.yyyy" :enable-time-picker="false" locale="es"/>
+                <VueDatePicker v-model="dateFin" placeholder="Fin del periodo" model-type="yyyy-MM-dd" :enable-time-picker="false" locale="es"/>
                 <div class="flex items-center space-x-5">
-                    <a v-on:click="console.log('sdfsd')" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Filtrar</a>
+                    <a v-on:click="filtrar" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Filtrar</a>
                     <a v-on:click="limpiar_filtro" class="tracking-wider text-center bg-gray-800 ring-2 ring-[#66fcf1] text-white px-4 py-2 mb-2 font-bold hover:bg-gray-700 rounded-full">Limpiar filtro</a>
                 </div>
             </div>
@@ -24,7 +26,7 @@
                 <!-- Tarjetas 1-6 -->
                 <div v-for="(tarjeta,index) in tarjetas" :key="index" :class="{'border-green-500': !tarjeta.estado,'border-red-500': tarjeta.estado}" class='flex flex-wrap flex-row sm:flex-col justify-center items-center w-full p-5 py-6 bg-white rounded-md shadow-xl border-l-[5px] border-blue-300'>
 		            <div class="text-center">
-                        <div class="font-bold text-gray-800 text-5xl">{{tarjeta.valor}}</div>
+                        <div class="font-bold text-gray-800 text-4xl">{{tarjeta.valor}}</div>
                         <div class="font-bold text-gray-800 text-base">{{tarjeta.nombre}}</div>
                         <div class="font-bold text-gray-800 text-sm">{{ tarjeta.estado ? 'Potencialmente Peligrosos' : 'Inofensivos' }}</div>
 		            </div>
@@ -57,13 +59,19 @@ export default {
     data(){
         return{
             tarjetas: [
-                {nombre: 'Total', valor: 0, estado: false},
-                {nombre: 'Velocidad', valor: 0, estado: false},
-                {nombre: 'Tamaño', valor: 0, estado: false},
+                {nombre: 'Total', valor: "0", estado: false},
+                {nombre: 'Velocidad', valor: "0 km/s", estado: false},
+                {nombre: 'Tamaño', valor: "0 m", estado: false},
                 {nombre: 'Total', valor: 0, estado: true},
-                {nombre: 'Velocidad', valor: 0, estado: true},
-                {nombre: 'Tamaño', valor: 0, estado: true},
-            ]
+                {nombre: 'Velocidad', valor: "0 km/s", estado: true},
+                {nombre: 'Tamaño', valor: "0 m", estado: true},
+            ],
+            total_inofensivos: 0,
+            velocidad_inofensivos: 0,
+            tamano_inofensivos: 0,
+            total_peligrosos: 0,
+            velocidad_peligrosos: 0,
+            tamano_peligrosos: 0,
         }
     },
     computed:{
@@ -73,11 +81,101 @@ export default {
         limpiar_filtro() {
             this.dateIni = '';
             this.dateFin = '';
+            this.tarjetas = [
+                {nombre: 'Total', valor: "0", estado: false},
+                {nombre: 'Velocidad', valor: "0 km/s", estado: false},
+                {nombre: 'Tamaño', valor: "0 m", estado: false},
+                {nombre: 'Total', valor: 0, estado: true},
+                {nombre: 'Velocidad', valor: "0 km/s", estado: true},
+                {nombre: 'Tamaño', valor: "0 m", estado: true},
+            ]
+        },
+
+        async filtrar(){
+            this.getAsteroidesInofensivos();
+            this.getVelocidadInofensivos();
+            this.getTamanoInofensivos();
+            this.getAsteroidesPeligrosos();
+            this.getVelocidadPeligrosos();
+            this.getTamanoPeligrosos();
+            const axiosInstance = axios.create({
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+            let response = await axiosInstance.get("http://localhost:8080/tamano/"+ this.dateIni + "/"+ this.dateFin);
+            this.tarjetas = [
+                {nombre: 'Total', valor: this.total_inofensivos, estado: false},
+                {nombre: 'Velocidad', valor: this.velocidad_inofensivos.toFixed(2).replace('.', ',')+" km/s", estado: false},
+                {nombre: 'Tamaño', valor: this.tamano_inofensivos.toFixed(2).replace('.', ',')+" m", estado: false},
+                {nombre: 'Total', valor: this.total_peligrosos, estado: true},
+                {nombre: 'Velocidad', valor: this.velocidad_peligrosos.toFixed(2).replace('.', ',')+" km/s", estado: true},
+                {nombre: 'Tamaño', valor: this.tamano_peligrosos.toFixed(2).replace('.', ',')+" m", estado: true},
+            ]
+        },
+
+        async getAsteroidesInofensivos(){
+            const axiosInstance = axios.create({
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+            let response = await axiosInstance.get("http://localhost:8080/total_num/"+ this.dateIni + "/"+ this.dateFin);
+            console.log(response.data);
+            this.total_inofensivos = response.data;
+        },
+        async getVelocidadInofensivos(){
+            const axiosInstance = axios.create({
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+            let response = await axiosInstance.get("http://localhost:8080/velocidad/"+ this.dateIni + "/"+ this.dateFin);
+            console.log(response.data);
+            this.velocidad_inofensivos = response.data;
+        },
+        async getTamanoInofensivos(){
+            const axiosInstance = axios.create({
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+            let response = await axiosInstance.get("http://localhost:8080/tamano/"+ this.dateIni + "/"+ this.dateFin);
+            console.log(response.data);
+            this.tamano_inofensivos = response.data;
+        },
+        async getAsteroidesPeligrosos(){
+            const axiosInstance = axios.create({
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+            let response = await axiosInstance.get("http://localhost:8080/total_peligroso/"+ this.dateIni + "/"+ this.dateFin);
+            console.log(response.data);
+            this.total_peligrosos = response.data;
+        },
+        async getVelocidadPeligrosos(){
+            const axiosInstance = axios.create({
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+            let response = await axiosInstance.get("http://localhost:8080/velocidad_peligroso/"+ this.dateIni + "/"+ this.dateFin);
+            console.log(response.data);
+            this.velocidad_peligrosos = response.data;
+        },
+        async getTamanoPeligrosos(){
+            const axiosInstance = axios.create({
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+            let response = await axiosInstance.get("http://localhost:8080/tamano_peligroso/"+ this.dateIni + "/"+ this.dateFin);
+            console.log(response.data);
+            this.tamano_peligrosos = response.data;
         },
     },
     async mounted(){
-        const response = await axios.get('https://api.nasa.gov/neo/rest/v1/feed?start_date=2015-09-07&end_date=2015-09-08&api_key=DEMO_KEY');
-        console.log(response.data);
     }
 }
 </script>

@@ -10,7 +10,7 @@
                     <p class="text-xl break-normal text-gray-200 mt-4"> {{ counter.toLocaleString() }} Cercanos a la Tierra.</p>
                     <div class="mt-8">
                         <a href="dashboard" class="bg-white text-gray-800 font-bold rounded-full px-6 py-3 mr-1 shadow-lg uppercase tracking-wider hover:bg-gray-200">Free Trial</a>
-                        <a href="#" class="bg-gray-800 ring-2 ring-[#66fcf1] text-white font-bold rounded-full px-6 py-3 ml-1 shadow-lg uppercase tracking-wider hover:bg-gray-700">Signup</a>
+                        <a href="#" class="bg-gray-800 ring-2 ring-[#66fcf1] text-white font-bold rounded-full px-6 py-3 ml-1 shadow-lg uppercase tracking-wider hover:bg-gray-700">More info</a>
                     </div>
                 </div>
                 <div class="w-full md:w-1/2 px-4"></div>
@@ -56,15 +56,42 @@
 }
 </style>
 
-<script setup>
+<script>
+import axios from 'axios'
 import { ref } from 'vue'
-const counter = ref(578950)
+const counter = 0
+const max = 0
 
-setInterval(() => {
-    if (counter.value < 600000) {
-        counter.value += 50
+
+export default {
+    data(){
+        return{
+            counter: '',
+        }
+    },
+    computed:{
+    },
+    methods:{
+        limpiar_filtro() {
+            this.dateIni = '';
+            this.dateFin = '';
+        },
+        async getAsteroids() {
+            const axiosInstance = axios.create({
+                headers: {
+                    "Access-Control-Allow-Origin": "*"
+                }
+            });
+            let response = await axiosInstance.get('http://localhost:8080/total_historico');
+            console.log(response.data);
+            this.counter = response.data-20000;
+            this.max = response.data;
+            setInterval(() => {if (this.counter < this.max) {this.counter += 55}}, 14);
+        }
+    },
+    async mounted(){
+        this.getAsteroids();
     }
-}, 13);
-
+}
 
 </script>
