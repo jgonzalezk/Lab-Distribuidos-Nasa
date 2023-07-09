@@ -1,5 +1,5 @@
 # Usa la imagen base de Node.js
-FROM node:14
+FROM node:16
 
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -7,11 +7,12 @@ WORKDIR /app
 # Copia el package.json y package-lock.json a la imagen
 COPY package*.json ./
 
-# Instala las dependencias
-RUN npm install
 
 # Copia el resto de los archivos del proyecto a la imagen
 COPY . .
+
+# Instala las dependencias
+RUN npm install
 
 # Construye la aplicación de Nuxt
 RUN npm run build
@@ -20,4 +21,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Inicia la aplicación cuando el contenedor se ejecute
-CMD [ "npm", "run", "start" ]
+CMD [ "node", ".output/server/index.mjs" ]
