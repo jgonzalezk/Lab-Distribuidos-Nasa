@@ -35,7 +35,7 @@ if __name__ == '__main__':
         estimated_diameter_max = estimated_diameter_meters["estimated_diameter_max"]
         
         close_approach_data = asteroid["close_approach_data"][0]
-        orbiting_body =close_approach_data["orbiting_body"]
+        orbiting_body = close_approach_data["orbiting_body"]
         relative_velocity_KpS = close_approach_data["relative_velocity"]["kilometers_per_second"]
 
         asteroid_dict = {
@@ -73,10 +73,10 @@ if __name__ == '__main__':
 
     topic = 'asteroid4'
     #  Last Day -- Lectura cada 4 años
-    last_day = to_date('1990-01-01')
+    last_day = to_date('1930-01-01')
     # Url of init date
     api_key = 'YEZdkjrSdir4Wnal1hTqz9tpMN84Djl95RUY1Owp'
-    url = define_url('1985-01-01', '1985-01-07', api_key)
+    url = define_url('1920-01-01', '1920-01-07', api_key)
     print(url)
     # Flag to end while when data is from today
     close = False
