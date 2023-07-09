@@ -45,9 +45,21 @@ python consumer.py getting_started.ini
 ```
 
 ### Backend
+Primero se debe crear el archivo .jar:
 ```shell
-mvn spring-boot:run
+mvn package
 ```
+Luego generar la imagen:
+```shell
+docker build -t backend .
+```
+Posteriormente levantar el contenedor:
+
+```shell
+docker run -d --name backendCont -p 8080:8080 backend
+```
+
+
 
 
 ### Frontend

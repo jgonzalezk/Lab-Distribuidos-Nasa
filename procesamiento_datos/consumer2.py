@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys
 from argparse import ArgumentParser, FileType
 from configparser import ConfigParser
@@ -25,7 +23,7 @@ if __name__ == '__main__':
     config_parser = ConfigParser()
     config_parser.read_file(args.config_file)
     config = dict(config_parser['default'])
-    config.update(config_parser['consumer'])
+    config.update(config_parser['consumer2'])
 
     # Create Consumer instance
     consumer = Consumer(config)
@@ -38,7 +36,7 @@ if __name__ == '__main__':
             consumer.assign(partitions)
 
     # Subscribe to topic
-    topic = "asteroid"
+    topic = "asteroid2"
     consumer.subscribe([topic], on_assign=reset_offset)
 
     # Poll for new messages from Kafka and print them.
