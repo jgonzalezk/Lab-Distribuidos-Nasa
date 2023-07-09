@@ -1,13 +1,11 @@
 package com.example.nasaasteroidapi.service;
 
-import java.util.List;
 import org.apache.spark.sql.Column;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.nasaasteroidapi.model.Asteroide;
 import com.example.nasaasteroidapi.repository.AsteroideRepository;
 
 import static org.apache.spark.sql.functions.*;
@@ -16,16 +14,24 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AsteroideService {
-    private final AsteroideRepository asteroideRepository;
-
     @Autowired
     private SparkSession spark;
 
-    public List<Asteroide> getAll() {
-        return asteroideRepository.findAll();
+
+    public Long total_historico(){
+        Long df = spark.read().format("mongodb").load().count();
+        return  df;
     }
 
-    public Long total_asteroide(Column fechaInicial, Column fechaFinal) {
+    public Dataset<Row> total_asteroide(Column fechaInicial, Column fechaFinal){
+        Dataset<Row> df = spark.read().format("mongodb").load()
+            .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))));
+        return df;
+    }
+
+
+
+    public Long total_asteroide_num(Column fechaInicial, Column fechaFinal) {
         Dataset<Row> df = spark.read().format("mongodb").load();
         Long total = df
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
@@ -101,4 +107,9 @@ public class AsteroideService {
         return result;
 
     }
+
+    
+
+
+
 }
