@@ -103,7 +103,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get("http://localhost:8080/tamano/"+ this.dateIni + "/"+ this.dateFin);
+            let response = await axiosInstance.get("http://localhost:8080/total_num/"+ this.dateIni + "/"+ this.dateFin);
             this.tarjetas = [
                 {nombre: 'Total', valor: this.total_inofensivos, estado: false},
                 {nombre: 'Velocidad', valor: this.velocidad_inofensivos.toFixed(2).replace('.', ',')+" km/s", estado: false},
