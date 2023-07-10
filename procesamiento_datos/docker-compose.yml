@@ -33,3 +33,83 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  consumer:
+    image: python:3.8
+    container_name: consumer
+    depends_on:
+      - broker
+      - broker2
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
+    command: python consumer.py getting_started.ini
+
+  consumer2:
+    image: python:3.8
+    container_name: consumer2
+    depends_on:
+      - broker
+      - broker2
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
+    command: python consumer2.py getting_started.ini
+  
+  consumer3:
+    image: python:3.8
+    container_name: consumer3
+    depends_on:
+      - broker
+      - broker2
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
+    command: python consumer3.py getting_started.ini
+
+  consumer4:
+    image: python:3.8
+    container_name: consumer4
+    depends_on:
+      - broker
+      - broker2
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
+    command: python consumer4.py getting_started.ini
+
+  producer:
+    image: python:3.8
+    container_name: producer
+    depends_on:
+      - broker
+      - broker2
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
+    command: python producer.py getting_started.ini
+
+  producer2:
+    image: python:3.8
+    container_name: producer2
+    depends_on:
+      - broker
+      - broker2
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
+    command: python producer2.py getting_started.ini
+
+  producer3:
+    image: python:3.8
+    container_name: producer3
+    depends_on:
+      - broker
+      - broker2
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
+    command: python producer3.py getting_started.ini
+
+  producer4:
+    image: python:3.8
+    container_name: producer4
+    depends_on:
+      - broker
+      - broker2
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
+    command: python producer4.py getting_started.ini
