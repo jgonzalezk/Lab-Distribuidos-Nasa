@@ -39,7 +39,7 @@ services:
     container_name: consumer
     depends_on:
       - broker
-      - broker2
+      
     environment:
       KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
     command: python consumer.py getting_started.ini
@@ -49,7 +49,7 @@ services:
     container_name: consumer2
     depends_on:
       - broker
-      - broker2
+      
     environment:
       KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
     command: python consumer2.py getting_started.ini
@@ -59,7 +59,7 @@ services:
     container_name: consumer3
     depends_on:
       - broker
-      - broker2
+      
     environment:
       KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
     command: python consumer3.py getting_started.ini
@@ -69,7 +69,7 @@ services:
     container_name: consumer4
     depends_on:
       - broker
-      - broker2
+      
     environment:
       KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
     command: python consumer4.py getting_started.ini
@@ -79,7 +79,7 @@ services:
     container_name: producer
     depends_on:
       - broker
-      - broker2
+      
     environment:
       KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
     command: python producer.py getting_started.ini
@@ -89,7 +89,7 @@ services:
     container_name: producer2
     depends_on:
       - broker
-      - broker2
+      
     environment:
       KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
     command: python producer2.py getting_started.ini
@@ -99,7 +99,7 @@ services:
     container_name: producer3
     depends_on:
       - broker
-      - broker2
+      
     environment:
       KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
     command: python producer3.py getting_started.ini
@@ -109,7 +109,20 @@ services:
     container_name: producer4
     depends_on:
       - broker
-      - broker2
+      
     environment:
       KAFKA_BOOTSTRAP_SERVERS: 'localhost:9092'
     command: python producer4.py getting_started.ini
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_DATABASE: NASA_data
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    command: mongod
+
+volumes:
+  mongodb_data:

@@ -12,10 +12,10 @@ public class SparkConfig {
         return SparkSession.builder()
                 .master("local")
                 .appName("MongoDBSparkApi")
-                // .config("spark.mongodb.read.connection.uri", "mongodb://host.docker.internal:27017/NASA_data.asteroids")
-                // .config("spark.mongodb.write.connection.uri", "mongodb://host.docker.internal:27017/NASA_data.asteroids")
-                .config("spark.mongodb.read.connection.uri", "mongodb://localhost:27017/NASA_data.asteroids")
-                .config("spark.mongodb.write.connection.uri", "mongodb://localhost:27017/NASA_data.asteroids")
+                .config("spark.mongodb.read.connection.uri", "mongodb://host.docker.internal:27017/NASA_data.asteroids")
+                .config("spark.mongodb.write.connection.uri", "mongodb://host.docker.internal:27017/NASA_data.asteroids")
+                //.config("spark.mongodb.read.connection.uri", "mongodb://localhost:27017/NASA_data.asteroids")
+                //.config("spark.mongodb.write.connection.uri", "mongodb://localhost:27017/NASA_data.asteroids")
                 .getOrCreate();
 
     }
