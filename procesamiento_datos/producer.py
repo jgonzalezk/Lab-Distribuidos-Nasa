@@ -7,7 +7,6 @@ from configparser import ConfigParser
 from confluent_kafka import Producer
 import requests
 import json
-import winsound
 import sys
 
 if __name__ == '__main__':
@@ -104,20 +103,16 @@ if __name__ == '__main__':
                         except Exception as e:
                             id = asteroid["id"]
                             print(f"OjO: json del asteroide con id: {id} en la fecha: {date}, esta defectuoso. Error en parametro: {str(e)}. Asteroide no guardado")
-                            winsound.MessageBeep()
                             continue # Ignore the faulty asteroid and continue
                 close = True   
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except ValueError as e:
                 print(f"Error al analizar JSON: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except Exception as e:
                 print(f"Error inesperado:: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
 
         elif to_date(get_end_date(url)) > today:
@@ -144,20 +139,15 @@ if __name__ == '__main__':
                         except Exception as e:
                             id = asteroid["id"]
                             print(f"OjO: json del asteroide con id: {id} en la fecha: {date}, esta defectuoso. Error en parametro: {str(e)}. Asteroide no guardado")
-                            winsound.MessageBeep()
                             continue # Ignore the faulty asteroid and continue
                 close = True
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}. URL: {url}")
-                winsound.MessageBeep()
-                sys.exit()
             except ValueError as e:
                 print(f"Error al analizar JSON: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except Exception as e:
                 print(f"Error inesperado:: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
 
         else:
@@ -185,24 +175,19 @@ if __name__ == '__main__':
                             except Exception as e:
                                 id = asteroid["id"]
                                 print(f"OjO: json del asteroide con id: {id} en la fecha: {date}, esta defectuoso. Error en parametro: {str(e)}. Asteroide no guardado")
-                                winsound.MessageBeep()
                                 continue # Ignore the faulty asteroid and continue
                 url = data["links"]["next"]
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except ValueError as e:
                 print(f"Error al analizar JSON: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except Exception as e:
                 print(f"Error inesperado:: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
 
     # Block until the messages are sent.
     producer.poll(10000)
     producer.flush()
     print("Proceso finalizado exitosamente \(^o^)/")
-    winsound.PlaySound('Fire_Alarm.WAV', winsound.SND_FILENAME)
