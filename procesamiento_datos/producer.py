@@ -94,6 +94,7 @@ if __name__ == '__main__':
                     for asteroid in asteroids:
                         try:
                             asteroid_dict = define_asteroid(asteroid, date)
+                            print(asteroid_dict)
                             # Serialize the dictionary in JSON format
                             asteroid_json = json.dumps(asteroid_dict)
                             # Encode the JSON in bytes

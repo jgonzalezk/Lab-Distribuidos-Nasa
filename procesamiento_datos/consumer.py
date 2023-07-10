@@ -61,6 +61,7 @@ if __name__ == '__main__':
                 #Decode message 
                 asteroid = msg.value().decode('utf-8')
                 asteroid_dict = json.loads(asteroid)
+                print(asteroid_dict)
                 # Insert datas in MongoDB
                 collection.insert_one(asteroid_dict)
                 # Confirmar la posición de lectura del mensaje
