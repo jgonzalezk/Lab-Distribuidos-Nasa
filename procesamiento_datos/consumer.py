@@ -12,7 +12,7 @@ from pymongo import MongoClient
 if __name__ == '__main__':
 
     # Configuring the connection to MongoDB
-    client = MongoClient('mongodb://localhost:27017/')
+    client = MongoClient('mongodb://host.docker.internal:27017/')
     db = client['NASA_data']  # Database name
     collection = db['asteroids']  # Collection name
     
