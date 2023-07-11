@@ -20,5 +20,7 @@ RUN npm run build
 # Expone el puerto 3000 para que la aplicación sea accesible
 EXPOSE 3000
 
+ENV HOST 0.0.0.0
+
 # Inicia la aplicación cuando el contenedor se ejecute
 CMD [ "node", ".output/server/index.mjs" ]
