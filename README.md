@@ -69,6 +69,6 @@ docker build -t front-app .
 ```
 Para poder levantar el contenedor
 ```shell
-docker run -p 3000:3000 front-app
+docker run -d --name frontendCont -p 3000:3000 front-app
 ```
 
