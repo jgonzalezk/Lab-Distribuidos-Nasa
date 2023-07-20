@@ -1,151 +1,72 @@
----
-version: '3'
+version: '3.8'
+
 services:
+
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.3.0
-    hostname: zookeeper
+    image: confluentinc/cp-zookeeper:latest
     container_name: zookeeper
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
 
   broker:
-    image: confluentinc/cp-kafka:7.3.0
+    image: confluentinc/cp-kafka:latest
     container_name: broker
-    ports:
-      - "9092:9092"
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://host.docker.internal:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-    
-  mongodb:
-    restart: always
-    image: mongo
-    container_name: mongodb
     ports:
-      - '27017:27017'
-    logging:
-      options: 
-        max-size: 1g
-    volumes:
-      - ./data:/data/db
-      - ./monogo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - "9092:9092"
+      - "29092:29092"
 
-  consumer:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: consumer
+  mongo:
+    image: mongo:6.0.4
+    restart: unless-stopped
+    container_name: mongo
     depends_on:
       - broker
-    volumes:
-      - ./consumer.py:/app/consumer.py
-      - ./getting_started.ini:/app/getting_started.ini
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: 'host.docker.internal:9092'
-    command: python /app/consumer.py /app/getting_started.ini
-
-  consumer2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: consumer2
-    depends_on:
-      - broker
+      MONGO_INITDB_DATABASE: NASA_data
+      MONGO_INITDB_ROOT_USERNAME: 'Nasa_user_name'
+      MONGO_INITDB_ROOT_PASSWORD: 'Nasa_secret_password'
     volumes:
-      - ./consumer2.py:/app/consumer2.py
-      - ./getting_started.ini:/app/getting_started.ini
+      - ./mongodb/init/init-script.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./mongodb/init/initdata.json:/initial/initdata.json:ro
+      - ./mongodb/data:/data/db
+      - ./mongodb/data/log:/var/log/mongodb/
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://mongo:27017/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    # Cuando los contenedores se hayan levantado correctamente, correr este comando por la consola de mongo:
+    # mongoimport --db NASA_data --collection asteroids --authenticationDatabase admin --username Nasa_user_name --password Nasa_secret_password --drop --file /initial/initdata.json --jsonArray
+    #mongosh --authenticationDatabase admin --username Nasa_user_name --password Nasa_secret_password
+    
+  mongo-express:
+    image: mongo-express:1.0.0-alpha
+    restart: unless-stopped
+    container_name: mongoDB-expresMongo
     environment:
-      KAFKA_BOOTSTRAP_SERVERS: 'host.docker.internal:9092'
-    command: python consumer2.py getting_started.ini
-  
-  consumer3:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: consumer3
-    depends_on:
-      - broker
-    volumes:
-      - ./consumer3.py:/app/consumer3.py
-      - ./getting_started.ini:/app/getting_started.ini
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: 'host.docker.internal:9092'
-    command: python consumer3.py getting_started.ini
-
-  consumer4:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: consumer4
-    depends_on:
-      - broker
-    volumes:
-      - ./consumer4.py:/app/consumer4.py
-      - ./getting_started.ini:/app/getting_started.ini
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: 'host.docker.internal:9092'
-    command: python consumer4.py getting_started.ini
-
-  producer:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: producer
-    depends_on:
-      - broker
-    volumes:
-      - ./producer.py:/app/producer.py
-      - ./getting_started.ini:/app/getting_started.ini
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: 'host.docker.internal:9092'
-    command: python producer.py getting_started.ini
-
-  producer2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: producer2
-    depends_on:
-      - broker
-    volumes:
-      - ./producer2.py:/app/producer2.py
-      - ./getting_started.ini:/app/getting_started.ini
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: 'host.docker.internal:9092'
-    command: python producer2.py getting_started.ini
-
-  producer3:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: producer3
-    depends_on:
-      - broker
-    volumes:
-      - ./producer3.py:/app/producer3.py
-      - ./getting_started.ini:/app/getting_started.ini  
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: 'host.docker.internal:9092'
-    command: python producer3.py getting_started.ini
-
-  producer4:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: producer4
-    depends_on:
-      - broker
-    volumes:
-      - ./producer4.py:/app/producer4.py
-      - ./getting_started.ini:/app/getting_started.ini
-    environment:
-      KAFKA_BOOTSTRAP_SERVERS: 'host.docker.internal:9092'
-    command: python producer4.py getting_started.ini
+      ME_CONFIG_MONGODB_SERVER: 'mongo'
+      ME_CONFIG_MONGODB_ADMINUSERNAME: 'Nasa_user_name'
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 'Nasa_secret_password'
+      ME_CONFIG_MONGODB_PORT: '27017'
+      ME_CONFIG_BASICAUTH_USERNAME: 'admin'
+      ME_CONFIG_BASICAUTH_PASSWORD: 'super-secret-password'
+    links:
+      - mongo    
+    ports:
+      - "8081:8081"
