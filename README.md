@@ -63,8 +63,12 @@ docker run -d --name backendCont -p 8080:8080 backend
 
 
 ### Frontend
-Insertar hacen correr esta parte
+Se debe ejecutar el siguiente commando en la carpeta de front donde está el Dockerfile:
 ```shell
-pip install
-npm run dev
+docker build -t front-app .
 ```
+Para poder levantar el contenedor
+```shell
+docker run -d --name frontendCont -p 3000:3000 front-app
+```
+

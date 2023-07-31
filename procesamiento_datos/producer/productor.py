@@ -1,33 +1,20 @@
-
-from datetime import datetime
 from urllib.parse import parse_qs, urlparse
 from datetime import datetime
-from argparse import ArgumentParser, FileType
-from configparser import ConfigParser
-from confluent_kafka import Producer
+from kafka import KafkaProducer
 import requests
 import json
-import winsound
 import sys
 
 if __name__ == '__main__':
-    # Parse the command line.
-    parser = ArgumentParser()
-    parser.add_argument('config_file', type=FileType('r'))
-    args = parser.parse_args()
 
-    # Parse the configuration.
-    # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
-    config_parser = ConfigParser()
-    config_parser.read_file(args.config_file)
-    config = dict(config_parser['default'])
-    
-   # Create Producer instance
-    producer = Producer(config)
+     # Create Producer instance
+    producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
     def delivery_callback(err, msg):
-        if err:
-            print('ERROR: Message failed delivery: {}'.format(err))
+        if err is not None:
+            print(f'ERROR: Message failed delivery: {err}')
+        else:
+            print(f'Message delivered to {msg.topic()} [{msg.partition()}]')
 
     def define_asteroid(asteroid, date):
 
@@ -56,7 +43,6 @@ if __name__ == '__main__':
     def define_url(start_date_str, end_date_str, api_key):
         # Get url
         return f'https://api.nasa.gov/neo/rest/v1/feed?start_date={start_date_str}&end_date={end_date_str}&api_key={api_key}'
-    
     def get_start_date(url):
         # Parse the URL and extract the parameters date
         parsed_url = urlparse(url)
@@ -75,8 +61,8 @@ if __name__ == '__main__':
     #  Today
     today = datetime.now().date()
     # Url of init date (2000 at the moment)
-    api_key = 'xtcfpGp6So75vhDw0i8Aou5gy7LJbOENiKsoRgXS'
-    url = define_url('2015-09-15', '2015-09-21', api_key)
+    api_key = 'izjbQge0O64wnofaQHB8PeYljVFl8Nzmh2yYRwNF'
+    url = define_url('2023-07-09', '2023-07-15', api_key)
     print(url)
     # Flag to end while when data is from today
     close = False
@@ -95,29 +81,26 @@ if __name__ == '__main__':
                     for asteroid in asteroids:
                         try:
                             asteroid_dict = define_asteroid(asteroid, date)
+                            print(asteroid_dict)
                             # Serialize the dictionary in JSON format
                             asteroid_json = json.dumps(asteroid_dict)
                             # Encode the JSON in bytes
                             message_value = asteroid_json.encode('utf-8')
                             # Send dictionary asteroid
-                            producer.produce('asteroid', message_value, callback=delivery_callback)
+                            producer.send('asteroid', message_value).add_callback(delivery_callback)
                         except Exception as e:
                             id = asteroid["id"]
                             print(f"OjO: json del asteroide con id: {id} en la fecha: {date}, esta defectuoso. Error en parametro: {str(e)}. Asteroide no guardado")
-                            winsound.MessageBeep()
                             continue # Ignore the faulty asteroid and continue
                 close = True   
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except ValueError as e:
                 print(f"Error al analizar JSON: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except Exception as e:
                 print(f"Error inesperado:: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
 
         elif to_date(get_end_date(url)) > today:
@@ -135,29 +118,25 @@ if __name__ == '__main__':
                     for asteroid in asteroids:
                         try:
                             asteroid_dict = define_asteroid(asteroid, date)
+                            print(asteroid_dict)
                             # Serialize the dictionary in JSON format
                             asteroid_json = json.dumps(asteroid_dict)
                             # Encode the JSON in bytes
                             message_value = asteroid_json.encode('utf-8')
                             # Send dictionary asteroid
-                            producer.produce('asteroid', message_value, callback=delivery_callback)
+                            producer.send('asteroid', message_value).add_callback(delivery_callback)
                         except Exception as e:
                             id = asteroid["id"]
                             print(f"OjO: json del asteroide con id: {id} en la fecha: {date}, esta defectuoso. Error en parametro: {str(e)}. Asteroide no guardado")
-                            winsound.MessageBeep()
                             continue # Ignore the faulty asteroid and continue
                 close = True
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}. URL: {url}")
-                winsound.MessageBeep()
-                sys.exit()
             except ValueError as e:
                 print(f"Error al analizar JSON: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except Exception as e:
                 print(f"Error inesperado:: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
 
         else:
@@ -176,33 +155,28 @@ if __name__ == '__main__':
                         for asteroid in asteroids:
                             try:
                                 asteroid_dict = define_asteroid(asteroid, date)
+                                print(asteroid_dict)
                                 # Serialize the dictionary in JSON format
                                 asteroid_json = json.dumps(asteroid_dict)
                                 # Encode the JSON in bytes
                                 message_value = asteroid_json.encode('utf-8')
                                 # Send dictionary asteroid
-                                producer.produce('asteroid', message_value, callback=delivery_callback)
+                                producer.send('asteroid', message_value).add_callback(delivery_callback)
                             except Exception as e:
                                 id = asteroid["id"]
                                 print(f"OjO: json del asteroide con id: {id} en la fecha: {date}, esta defectuoso. Error en parametro: {str(e)}. Asteroide no guardado")
-                                winsound.MessageBeep()
                                 continue # Ignore the faulty asteroid and continue
                 url = data["links"]["next"]
             except requests.exceptions.RequestException as e:
                 print(f"Error al realizar la solicitud: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except ValueError as e:
                 print(f"Error al analizar JSON: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
             except Exception as e:
                 print(f"Error inesperado:: {e}. URL: {url}")
-                winsound.MessageBeep()
                 sys.exit()
 
     # Block until the messages are sent.
-    producer.poll(10000)
     producer.flush()
     print("Proceso finalizado exitosamente \(^o^)/")
-    winsound.PlaySound('Fire_Alarm.WAV', winsound.SND_FILENAME)
