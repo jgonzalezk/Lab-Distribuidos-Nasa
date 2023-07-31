@@ -16,15 +16,22 @@ import lombok.RequiredArgsConstructor;
 public class AsteroideService {
     @Autowired
     private SparkSession spark;
+    private final Dataset<Row> dataframe;
 
+    @Autowired
+    public AsteroideService(SparkSession spark) {
+        this.spark = spark;
+        this.dataframe = spark.read().format("mongodb").load();
+        this.dataframe .cache();
+    }
 
     public Long total_historico(){
-        Long df = spark.read().format("mongodb").load().count();
+        Long df = dataframe.count();
         return  df;
     }
 
     public Dataset<Row> total_asteroide(Column fechaInicial, Column fechaFinal){
-        Dataset<Row> df = spark.read().format("mongodb").load()
+        Dataset<Row> df = dataframe
             .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))));
         return df;
     }
@@ -32,8 +39,7 @@ public class AsteroideService {
 
 
     public Long total_asteroide_num(Column fechaInicial, Column fechaFinal) {
-        Dataset<Row> df = spark.read().format("mongodb").load();
-        Long total = df
+        Long total = dataframe
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
                 .count();
         return total;
@@ -41,8 +47,7 @@ public class AsteroideService {
     }
 
     public Long total_peligroso(Column fechaInicial, Column fechaFinal) {
-        Dataset<Row> df = spark.read().format("mongodb").load();
-        Long result = df
+        Long result = dataframe
                 .where("Is_potentially_hazardous_asteroid = true")
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
                 .count();
@@ -50,8 +55,7 @@ public class AsteroideService {
     }
 
     public Double velocidad_promedio(Column fechaInicial, Column fechaFinal) {
-        Dataset<Row> df = spark.read().format("mongodb").load();
-        Double result = df
+        Double result = dataframe
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
                 .agg(avg("Relative_velocity_KpS"))
                 .first()
@@ -61,8 +65,7 @@ public class AsteroideService {
     }
 
     public Double velocidad_promedio_peligroso(Column fechaInicial, Column fechaFinal) {
-        Dataset<Row> df = spark.read().format("mongodb").load();
-        Double result = df
+        Double result = dataframe
                 .where("Is_potentially_hazardous_asteroid = true")
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
                 .agg(avg("Relative_velocity_KpS"))
@@ -73,13 +76,12 @@ public class AsteroideService {
     }
 
     public Double tamano_promedio(Column fechaInicial, Column fechaFinal) {
-        Dataset<Row> df = spark.read().format("mongodb").load();
-        Double resultMin = df
+        Double resultMin = dataframe
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
                 .agg(avg("Estimated_diameter_met_min"))
                 .first()
                 .getDouble(0);
-        Double resultMax = df
+        Double resultMax = dataframe
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
                 .agg(avg("Estimated_diameter_met_max"))
                 .first()
@@ -90,14 +92,13 @@ public class AsteroideService {
     }
 
     public Double tamano_promedio_peligroso(Column fechaInicial, Column fechaFinal) {
-        Dataset<Row> df = spark.read().format("mongodb").load();
-        Double resultMin = df
+        Double resultMin = dataframe
                 .where("Is_potentially_hazardous_asteroid = true")
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
                 .agg(avg("Estimated_diameter_met_min"))
                 .first()
                 .getDouble(0);
-        Double resultMax = df
+        Double resultMax = dataframe
                 .where("Is_potentially_hazardous_asteroid = true")
                 .where(col("Date").geq(fechaInicial).and(col("Date").leq(to_date(lit(fechaFinal), "yyyy-MM-dd"))))
                 .agg(avg("Estimated_diameter_met_max"))
