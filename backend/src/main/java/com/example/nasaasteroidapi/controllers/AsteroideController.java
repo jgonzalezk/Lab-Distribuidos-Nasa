@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("")
 @RequiredArgsConstructor
 public class AsteroideController {
-    private final AsteroideService AsteroideService;
+    private AsteroideService AsteroideService;
 
     @GetMapping("/total/{fechaInicial}/{fechaFinal}")
     @ResponseBody
