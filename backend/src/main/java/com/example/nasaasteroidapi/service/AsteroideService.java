@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class AsteroideService {
     @Autowired
     private SparkSession spark;
-    private final Dataset<Row> dataframe;
+    private Dataset<Row> dataframe;
 
     @Autowired
     public AsteroideService(SparkSession spark) {
