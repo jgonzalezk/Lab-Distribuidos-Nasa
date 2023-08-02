@@ -1,5 +1,5 @@
 # Laboratorio de Sistemas Distribuidos
-blablabla
+Si se quiere correr, acordarse de cambiar la ip de las conexiones del frontend a localhost, pues se usa la de la maquina.
 
 ## API - Nasa Asteroids NeoWs
 
@@ -56,7 +56,7 @@ docker build -t backend .
 Posteriormente levantar el contenedor:
 
 ```shell
-docker run -d --name backendCont -p 8080:8080 backend
+docker run -d --network="host" --name backendCont -p 8080:8080 backend
 ```
 
 
@@ -69,6 +69,6 @@ docker build -t front-app .
 ```
 Para poder levantar el contenedor
 ```shell
-docker run -d --name frontendCont -p 3000:3000 front-app
+docker run -d --network="host" --name frontendCont -p 3000:3000 front-app
 ```
 
