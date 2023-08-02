@@ -103,7 +103,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get("http://localhost:8080/total_num/"+ this.dateIni + "/"+ this.dateFin);
+            let response = await axiosInstance.get("http://20.65.242.170:8080/total_num/"+ this.dateIni + "/"+ this.dateFin);
             this.tarjetas = [
                 {nombre: 'Total', valor: this.total_inofensivos, estado: false},
                 {nombre: 'Velocidad', valor: this.velocidad_inofensivos.toFixed(2).replace('.', ',')+" km/s", estado: false},
@@ -120,7 +120,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get("http://localhost:8080/total_num/"+ this.dateIni + "/"+ this.dateFin);
+            let response = await axiosInstance.get("http://20.65.242.170:8080/total_num/"+ this.dateIni + "/"+ this.dateFin);
             console.log(response.data);
             this.total_inofensivos = response.data;
         },
@@ -130,7 +130,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get("http://localhost:8080/velocidad/"+ this.dateIni + "/"+ this.dateFin);
+            let response = await axiosInstance.get("http://20.65.242.170:8080/velocidad/"+ this.dateIni + "/"+ this.dateFin);
             console.log(response.data);
             this.velocidad_inofensivos = response.data;
         },
@@ -140,7 +140,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get("http://localhost:8080/tamano/"+ this.dateIni + "/"+ this.dateFin);
+            let response = await axiosInstance.get("http://20.65.242.170:8080/tamano/"+ this.dateIni + "/"+ this.dateFin);
             console.log(response.data);
             this.tamano_inofensivos = response.data;
         },
@@ -150,7 +150,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get("http://localhost:8080/total_peligroso/"+ this.dateIni + "/"+ this.dateFin);
+            let response = await axiosInstance.get("http://20.65.242.170:8080/total_peligroso/"+ this.dateIni + "/"+ this.dateFin);
             console.log(response.data);
             this.total_peligrosos = response.data;
         },
@@ -160,7 +160,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get("http://localhost:8080/velocidad_peligroso/"+ this.dateIni + "/"+ this.dateFin);
+            let response = await axiosInstance.get("http://20.65.242.170:8080/velocidad_peligroso/"+ this.dateIni + "/"+ this.dateFin);
             console.log(response.data);
             this.velocidad_peligrosos = response.data;
         },
@@ -170,7 +170,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get("http://localhost:8080/tamano_peligroso/"+ this.dateIni + "/"+ this.dateFin);
+            let response = await axiosInstance.get("http://20.65.242.170:8080/tamano_peligroso/"+ this.dateIni + "/"+ this.dateFin);
             console.log(response.data);
             this.tamano_peligrosos = response.data;
         },

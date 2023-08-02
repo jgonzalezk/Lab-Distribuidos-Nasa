@@ -82,7 +82,7 @@ export default {
                     "Access-Control-Allow-Origin": "*"
                 }
             });
-            let response = await axiosInstance.get('http://localhost:8080/total_historico');
+            let response = await axiosInstance.get('http://20.65.242.170:8080/total_historico');
             console.log(response.data);
             this.counter = response.data-20000;
             this.max = response.data;
