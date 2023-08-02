@@ -22,7 +22,7 @@ public class AsteroideService {
     public AsteroideService(SparkSession spark) {
         this.spark = spark;
         this.dataframe = spark.read().format("mongodb").load();
-        this.dataframe .cache();
+        this.dataframe.cache();
     }
 
     public Long total_historico(){
