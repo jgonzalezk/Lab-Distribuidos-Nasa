@@ -15,8 +15,10 @@ public class SparkConfig {
                 .appName("MongoDBSparkApi")
                 //.config("spark.mongodb.read.connection.uri", "mongodb://host.docker.internal:27017/NASA_data.asteroids")
                 //.config("spark.mongodb.write.connection.uri", "mongodb://host.docker.internal:27017/NASA_data.asteroids")
-                .config("spark.mongodb.read.connection.uri", "mongodb://Nasa_user_name:Nasa_secret_password@localhost:27017/NASA_data.asteroids?authSource=admin")
-                .config("spark.mongodb.write.connection.uri", "mongodb://Nasa_user_name:Nasa_secret_password@localhost:27017/NASA_data.asteroids?authSource=admin")
+                .config("spark.mongodb.read.connection.uri", "mongodb://Nasa_user_name:Nasa_secret_password@host.docker.internal:27017/NASA_data.asteroids?authSource=admin")
+                .config("spark.mongodb.write.connection.uri", "mongodb://Nasa_user_name:Nasa_secret_password@host.docker.internal:27017/NASA_data.asteroids?authSource=admin")
+                // .config("spark.mongodb.read.connection.uri", "mongodb://Nasa_user_name:Nasa_secret_password@localhost:27017/NASA_data.asteroids?authSource=admin")
+                // .config("spark.mongodb.write.connection.uri", "mongodb://Nasa_user_name:Nasa_secret_password@localhost:27017/NASA_data.asteroids?authSource=admin")
                 .getOrCreate();
 
     }
